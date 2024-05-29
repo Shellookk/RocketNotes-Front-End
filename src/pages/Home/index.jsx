@@ -7,6 +7,7 @@ import { Header } from '../../components/Header'
 import { Section } from '../../components/Section'
 import { ButtonText } from '../../components/ButtonText'
 import { api } from '../../services/api'
+import { useNavigate } from 'react-router-dom'
 
 export function Home() {
 
@@ -14,6 +15,8 @@ export function Home() {
   const [tags, setTags] = useState([])
   const [tagsSelected, setTagsSelected] = useState([])
   const [notes, setNotes] = useState([])
+
+  const navigate = useNavigate()
 
   function handleTagSelected(tagName){
     if(tagName === "all"){
@@ -31,6 +34,12 @@ export function Home() {
     }
 
   }
+
+  function handleDetails(id){
+    navigate(`/details/${id}`)
+    
+  }
+
   useEffect(() =>{
     
   async function fetchTags(){
@@ -76,7 +85,7 @@ export function Home() {
       <Search>
         <Input 
         placeholder="Pesquisar pelo título"
-        onChange={() => setSearch(e.target.value)}
+        onChange={(e) => setSearch(e.target.value)}
         />
       </Search>
 
@@ -87,6 +96,7 @@ export function Home() {
           <Note
               key={String(note.id)}
               data={note}
+              onClick={() =>handleDetails(note.id)}
           />
         ))
         }
